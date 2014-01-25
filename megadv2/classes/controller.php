@@ -14,7 +14,7 @@ $this->$method();
 $this->after();
 }
 
-public function render($view)
+public function respond($view)
 {
 if (is_object($view))
   {

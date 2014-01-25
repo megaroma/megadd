@@ -40,6 +40,12 @@ static function view($template)
 return new view($template);
 }
 
+static function model($model_name)
+{
+$class_name = 'app\model\\'.$model_name;
+return new $class_name();
+}
+
 
 }
 

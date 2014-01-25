@@ -8,6 +8,9 @@ class index extends controller
 
 public function before()
 {
+
+$mod = core::model('test');
+echo $mod->test();
 }
 public function after()
 {
@@ -22,7 +25,7 @@ $index->test = "sega";
 
 $main->content = $index;
 
-$this->render($main);
+$this->respond($main);
 }
 
 function action_dd()
