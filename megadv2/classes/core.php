@@ -4,6 +4,7 @@ namespace megadv2\classes
 class core
 {
 private static $router = false; 
+private static $conf = array();
 
 static function arr($arr,$value,$default)
 {
@@ -26,6 +27,16 @@ if (self::$router)
   self::$router = new router();
   return self::$router;
   }
+}
+
+static function conf($grp = ".")
+{
+if ($grp == "") $grp = ".";
+if (!isset(self::$conf[$grp])) {
+
+}
+
+return ($grp == "") ? self::$conf['.'] : self::$conf[$grp];
 }
 
 //--------------

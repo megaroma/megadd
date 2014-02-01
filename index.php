@@ -5,6 +5,7 @@ define('MEGADV', true);
 include "megadv2/classes/autoload.php";
 spl_autoload_register('megadv2\classes\autoload::load');
 
+
 $route = core::arr($_GET,'route','');
 $router = core::router();
 $router->set_dir('admin/dd');
