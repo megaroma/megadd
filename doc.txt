@@ -1,0 +1,17 @@
+conroller:
+
+
+signal(
+array( 
+'id' => 'd3',
+'post' => array('s3','s4'),
+'get' => array('sq'),
+'session' => array ('dd','dd'),
+'cookie' => array(''),
+'slot' => '' 
+'action' => ''
+)
+)
+
+
+

@@ -6,15 +6,17 @@ class router {
 	public $action = "";
 	public $id = "";
 
+
 	private $def_controller = "index";
 	private $def_action = "index";
 	private $directories = array();
+	
 
 	public function set_dir($dir) {
 		$this->directories[] = $dir;
 	}
 
-	public function route($r) {
+	public function route($r) { 
 		$dir = "";
 		foreach ($this->directories as $d) {
 			if ($d.'/' == substr($r.'/',0,strlen($d)+1)) {

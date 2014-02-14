@@ -33,7 +33,7 @@ static function conf($grp = ".")
 {
 if ($grp == "") $grp = ".";
 if (!isset(self::$conf[$grp])) {
-
+self::$conf[$grp] = array();
 }
 
 return ($grp == "") ? self::$conf['.'] : self::$conf[$grp];
@@ -57,10 +57,17 @@ $class_name = 'app\model\\'.$model_name;
 return new $class_name();
 }
 
+static function load_conf()
+{
+if(file_exists( "app/conf/conf.php")) {
+self::$conf['.'] = include "app/conf/conf.php";
+}
 
 }
 
 
 
-}
+
+
+}}
 ?>
