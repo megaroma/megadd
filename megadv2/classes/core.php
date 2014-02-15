@@ -5,6 +5,7 @@ class core
 {
 private static $router = false; 
 private static $conf = array();
+private static $modules = array();
 
 static function arr($arr,$value,$default)
 {
@@ -29,14 +30,40 @@ if (self::$router)
   }
 }
 
+static function init()
+{
+self::load_conf();
+
+}
+
+static function load_conf($grp = ".")
+{
+if ($grp == "") $grp = ".";
+
+if ($grp == '.') 
+{
+if (file_exists('app/config/config.php')) {
+self::$conf['.'] = include('app/config/config.php'); 
+} else return false;
+} else
+{
+if (file_exists('app/config/'.$grp.'.php')) {
+self::$conf[$grp] = include('app/config/'.$grp.'.php');
+} elseif(file_exists('megadv2/modules/'.$grp.'/config/'.$grp.'.php')) {
+self::$conf[$grp] = include('megadv2/modules/'.$grp.'/config/'.$grp.'.php');
+} else return false;
+}
+return true;
+}
+
 static function conf($grp = ".")
 {
 if ($grp == "") $grp = ".";
-if (!isset(self::$conf[$grp])) {
-self::$conf[$grp] = array();
-}
 
-return ($grp == "") ? self::$conf['.'] : self::$conf[$grp];
+if (!isset(self::$conf[$grp])) {
+self::load_conf($grp);
+}
+return self::$conf[$grp];
 }
 
 //--------------
@@ -57,15 +84,25 @@ $class_name = 'app\model\\'.$model_name;
 return new $class_name();
 }
 
-static function load_conf()
+
+static function load_module($mod_name)
 {
-if(file_exists( "app/conf/conf.php")) {
-self::$conf['.'] = include "app/conf/conf.php";
+if (!(isset(self::$modules[$mod_name])))
+{
+self::load_conf($mod_name);
+$class_name = "\\megadv2\\modules\\$mod_name\\".$mod_name;
+self::$modules[$mod_name] = $class_name::getInstance();
 }
 
 }
 
-
+static function module($mod_name)
+{
+if(isset(self::$modules[$mod_name]))
+{
+return self::$modules[$mod_name];
+}
+}
 
 
 
