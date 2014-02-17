@@ -1,5 +1,5 @@
 <?php
-namespace megadv2\classes
+namespace megadd\classes
 {
 class core
 {
@@ -49,8 +49,8 @@ self::$conf['.'] = include('app/config/config.php');
 {
 if (file_exists('app/config/'.$grp.'.php')) {
 self::$conf[$grp] = include('app/config/'.$grp.'.php');
-} elseif(file_exists('megadv2/modules/'.$grp.'/config/'.$grp.'.php')) {
-self::$conf[$grp] = include('megadv2/modules/'.$grp.'/config/'.$grp.'.php');
+} elseif(file_exists('megadd/modules/'.$grp.'/config/'.$grp.'.php')) {
+self::$conf[$grp] = include('megadd/modules/'.$grp.'/config/'.$grp.'.php');
 } else return false;
 }
 return true;
@@ -90,7 +90,7 @@ static function load_module($mod_name)
 if (!(isset(self::$modules[$mod_name])))
 {
 self::load_conf($mod_name);
-$class_name = "\\megadv2\\modules\\$mod_name\\".$mod_name;
+$class_name = "\\megadd\\modules\\$mod_name\\".$mod_name;
 self::$modules[$mod_name] = $class_name::getInstance();
 }
 

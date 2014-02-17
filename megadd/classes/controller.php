@@ -1,5 +1,5 @@
 <?php
-namespace megadv2\classes
+namespace megadd\classes
 {
 abstract class controller
 {
@@ -41,8 +41,8 @@ $this->signals[] = $data;
 
 
 public function  run_signal()
-{
-$true_signal_id = "";
+{ 
+$true_signal_id = array();
 foreach( $this->signals as $signal_id => $signal_data)
 {
 $signal_stat = true;
@@ -51,16 +51,16 @@ if (isset($signal_data['id']))
 	if($signal_data['id'] != $this->id) $signal_stat = false;
  }
 if(isset($signal_data['post'])) 
- {
+ { 
   if(is_array($signal_data['post']))
   {
   foreach ($signal_data['post'] as $post) 
     {
-	if(!isset($_POST[$post])) $signal_stat = false;
+	if(!$this->check_signal($_POST,$post)) $signal_stat = false;
 	} 
   } else
   {
-	if(!isset($_POST[$signal_data['post']])) $signal_stat = false;
+	if(!$this->check_signal($_POST,$signal_data['post'])) $signal_stat = false;
   }
 }
 if(isset($signal_data['get'])) 
@@ -69,11 +69,11 @@ if(isset($signal_data['get']))
   {
   foreach ($signal_data['get'] as $get) 
     {
-	if(!isset($_GET[$get])) $signal_stat = false;
+	if(!$this->check_signal($_GET,$get)) $signal_stat = false;
 	} 
   } else
   {
-	if(!isset($_GET[$signal_data['get']])) $signal_stat = false;
+	if(!$this->check_signal($_GET,$signal_data['get'])) $signal_stat = false;
   }
 }
 if(isset($signal_data['session'])) 
@@ -82,11 +82,11 @@ if(isset($signal_data['session']))
   {
   foreach ($signal_data['session'] as $session) 
     {
-	if(!isset($_SESSION[$session])) $signal_stat = false;
+	if(!$this->check_signal($_SESSION,$session)) $signal_stat = false;
 	} 
   } else
   {
-	if(!isset($_SESSION[$signal_data['session']])) $signal_stat = false;
+	if(!$this->check_signal($_SESSION,$signal_data['session'])) $signal_stat = false;
   }
 }  
 if(isset($signal_data['cookie'])) 
@@ -95,38 +95,48 @@ if(isset($signal_data['cookie']))
   {
   foreach ($signal_data['cookie'] as $cookie) 
     {
-	if(!isset($_COOKIE[$cookie])) $signal_stat = false;
+	if(!$this->check_signal($_COOKIE,$cookie)) $signal_stat = false;
 	} 
   } else
   {
-	if(!isset($_COOKIE[$signal_data['cookie']])) $signal_stat = false;
+	if(!$this->check_signal($_COOKIE,$signal_data['cookie'])) $signal_stat = false;
   }
 }  
 
 if ($signal_stat) {
-$true_signal_id = $signal_id;
-break;
+$true_signal_id[] = $signal_id;
 }  
 }
 
 
-if ($true_signal_id != '') 
+foreach ($true_signal_id as $signal_id) 
 {
-if (isset($this->signals[$true_signal_id]['slot']))
+if (isset($this->signals[$signal_id]['slot']))
   {
-  $method = 'slot_'.$this->signals[$true_signal_id]['slot'];
+  $method = 'slot_'.$this->signals[$signal_id]['slot'];
   $this->$method();
   }
 
-if (isset($this->signals[$true_signal_id]['action']))
+if (isset($this->signals[$signal_id]['action']))
   {
-  $method = 'action_'.$this->signals[$true_signal_id]['action'];
+  $method = 'action_'.$this->signals[$signal_id]['action'];
   return $method;
   }
   
 }
 
 return '';
+}
+
+private function check_signal($arr,$data)
+{
+  
+if (isset($arr[$data]) && ($arr[$data] != '' )) {
+  return true;
+} else {
+  return false;
+}
+
 }
 
 

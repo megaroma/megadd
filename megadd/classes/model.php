@@ -1,5 +1,5 @@
 <?php
-namespace megadv2\classes
+namespace megadd\classes
 {
 abstract class model
 {

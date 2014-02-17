@@ -1,8 +1,8 @@
 <?php
-namespace megadv2\modules\test
+namespace megadd\modules\test
 {
-if (!defined('MEGADV')) die ('401 page not found');
-use megadv2\classes\core;
+if (!defined('MEGADD')) die ('401 page not found');
+use megadd\classes\core;
 class test
 {
 

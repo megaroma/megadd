@@ -1,8 +1,8 @@
 <?php
 namespace app\model
 {
-use megadv2\classes\model;
-use megadv2\classes\core;
+use megadd\classes\model;
+use megadd\classes\core;
 class test extends model
 {
 

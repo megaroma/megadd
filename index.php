@@ -1,9 +1,9 @@
 <?php
 namespace {
-use megadv2\classes\core;
-define('MEGADV', true);
-include "megadv2/classes/autoload.php";
-spl_autoload_register('megadv2\classes\autoload::load');
+use megadd\classes\core;
+define('MEGADD', true);
+include "megadd/classes/autoload.php";
+spl_autoload_register('megadd\classes\autoload::load');
 
 core::init();
 

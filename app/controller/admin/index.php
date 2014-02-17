@@ -1,7 +1,7 @@
 <?php
 namespace app\controller\admin
 {
-use megadv2\classes\controller;
+use megadd\classes\controller;
 class index extends controller
 {
 
