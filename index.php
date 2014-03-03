@@ -4,6 +4,9 @@ use megadd\classes\core;
 define('MEGADD', true);
 include "megadd/classes/autoload.php";
 spl_autoload_register('megadd\classes\autoload::load');
+set_error_handler('megadd\classes\core::err2exc', E_ALL & ~E_NOTICE &~ E_USER_NOTICE | E_STRICT);
+error_reporting(E_ALL | E_STRICT);
+
 
 core::init();
 
@@ -15,13 +18,19 @@ $router->set_dir('admin');
 
 
 
+$error = core::error();
 
 
 $router->route($route);
 core::load_conf();
 $c = core::controller($router->controller);
-$c->run($router->action,$router->id);
 
+try
+{
+$c->run($router->action,$router->id);
+} catch (\Exception $e) {
+	$error->message($e);
+}
 
 
 

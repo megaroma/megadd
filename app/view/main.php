@@ -1,7 +1,9 @@
 ﻿<html>
 <body>
-
+head
+<hr>
 <?=$content;?>
-
+<hr>
+foter
 </body>
 </html>

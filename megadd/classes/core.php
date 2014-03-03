@@ -6,6 +6,7 @@ class core
 private static $router = false; 
 private static $conf = array();
 private static $modules = array();
+private static $error = false;
 
 static function arr($arr,$value,$default)
 {
@@ -18,6 +19,18 @@ if (isset($arr[$value]))
   }
 }
 
+
+static function error()
+{
+if (self::$error) 
+  {
+  return self::$error;
+  } else
+  {
+  self::$error = error::getInstance();
+  return self::$error;
+  }
+}
 static function router()
 {
 if (self::$router) 
@@ -104,6 +117,9 @@ return self::$modules[$mod_name];
 }
 }
 
+static function err2exc($errno, $errstr, $errfile, $errline) {
+    throw new \megadd\exceptions\phpexception($errno, $errstr, $errfile, $errline);
+}
 
 
 }}

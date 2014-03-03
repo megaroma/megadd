@@ -10,7 +10,7 @@ public function before()
 {
 
 $mod = core::model('test');
-echo $mod->test();
+//echo $mod->test();
 
 $this->signal( array (
 'post' => array('s3','s4'),
@@ -29,7 +29,7 @@ function action_index()
 core::load_module('test');
 $main = core::view('main');
 
-$test = core::module('test');
+$test = core::module('test'); //
 
 $index = core::view('index');
 $index->test = $test->get_str();
