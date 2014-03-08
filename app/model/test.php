@@ -8,6 +8,7 @@ class test extends model
 
 public function test()
 {
+//substr_replace();
 return 13;
 }
 

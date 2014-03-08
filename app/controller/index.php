@@ -10,7 +10,7 @@ public function before()
 {
 
 $mod = core::model('test');
-//echo $mod->test();
+$mod->test();
 
 $this->signal( array (
 'post' => array('s3','s4'),
