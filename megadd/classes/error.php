@@ -11,7 +11,7 @@ static function getInstance() {
 	}
 }
 
-abstract function message(\Exception $e);
+abstract function message($type,\Exception $e);
 
 }
 }

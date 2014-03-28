@@ -28,8 +28,10 @@ $c = core::controller($router->controller);
 try
 {
 $c->run($router->action,$router->id);
+} catch (\megadd\exceptions\phpexception $e) { 
+	$error->message('PHP Error',$e);
 } catch (\Exception $e) {
-	$error->message($e);
+	$error->message('Exception',$e);
 }
 
 

@@ -4,11 +4,14 @@ if (!defined('MEGADD')) die ('401 page not found');
 class view
 {
 private $template = "";
+private $path = "";
+
 private $data = array();
 
-public function __construct ($template)
+public function __construct ($template, $path = "app/view/")
 {
 $this->template = $template;
+$this->path = $path;
 }
 
 function __set($name,$value) 
@@ -33,7 +36,7 @@ if (is_object($value))
 }
 
 ob_start();
-include "app/view/".$this->template.".php";
+include $this->path.$this->template.".php";
 $text = ob_get_contents();
 ob_end_clean();
 return $text;

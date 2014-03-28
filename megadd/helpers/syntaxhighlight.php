@@ -1,7 +1,9 @@
 <?php
 namespace megadd\helpers
 {
-class SyntaxHighlight {
+class syntaxhighlight {
+
+private static $tokens = array();
 
 public static function process($s,$i = 1,$cur = "" ) {
         $s = htmlspecialchars($s);
@@ -12,7 +14,7 @@ public static function process($s,$i = 1,$cur = "" ) {
         $regexp = array(
 
             // Comments/Strings
-            '/(
+        /*    '/(
                 \/\*.*?\*\/|
                 \/\/.*?\n|
                 \#.[^a-fA-F0-9]+?\n|
@@ -20,7 +22,7 @@ public static function process($s,$i = 1,$cur = "" ) {
                 (?<!\\\)&quot;.*?(?<!\\\)&quot;|
                 (?<!\\\)\'(.*?)(?<!\\\)\'
             )/isex' 
-            => 'self::replaceId($tokens,\'$1\')',
+            => 'self::replaceId($tokens,\'$1\')',   */
 
             // Punctuations
             '/([\-\!\%\^\*\(\)\+\|\~\=\`\{\}\[\]\:\"\'<>\?\,\.\/]+)/'
@@ -60,16 +62,27 @@ public static function process($s,$i = 1,$cur = "" ) {
 
         );
 
-        $tokens = array(); // This array will be filled from the regexp-callback
-
-        $s = preg_replace(array_keys($regexp), array_values($regexp), $s);
+        //$tokens = array(); // This array will be filled from the regexp-callback
+		/*
+		$s= preg_replace_callback('/(
+                \/\*.*?\*\/|
+                \/\/.*?\n|
+                \#.[^a-fA-F0-9]+?\n|
+                \&lt;\!\-\-[\s\S]+\-\-\&gt;|
+                (?<!\\\)&quot;.*?(?<!\\\)&quot;|
+                (?<!\\\)\'(.*?)(?<!\\\)\'
+            )/isx', function($matches) {
+		return self::replaceId($matches[0]);
+		}, $s);
+	*/
+        //$s = preg_replace(array_keys($regexp), array_values($regexp), $s);
 
         // Paste the comments and strings back in again
-        $s = str_replace(array_keys($tokens), array_values($tokens), $s);
+        //$s = str_replace(array_keys(self::$tokens), array_values(self::$tokens), $s);
 
         // Delete the "Escaped Backslash Workaround Token" (TM)
         // and replace tabs with four spaces.
-        $s = str_replace(array('<e>', "\t"), array('', '    '), $s);
+        //$s = str_replace(array('<e>', "\t"), array('', '    '), $s);
 
 		//mega test
 		$buf="";
@@ -104,14 +117,14 @@ public static function process($s,$i = 1,$cur = "" ) {
     // the matched text in an array
     // This way, strings and comments will be stripped out and wont be processed
     // by the other expressions searching for keywords etc.
-    private static function replaceId(&$a, $match) {
+    private static function replaceId( $match) {
         $id = "##r" . uniqid() . "##";
 
         // String or Comment?
         if(substr($match, 0, 2) == '//' || substr($match, 0, 2) == '/*' || substr($match, 0, 2) == '##' || substr($match, 0, 7) == '&lt;!--') {
-            $a[$id] = '<span style="color:#7F9F7F;">' . $match . '</span>';
+            self::$tokens[$id] = '<span style="color:#7F9F7F;">' . $match . '</span>';
         } else {
-            $a[$id] = '<span style="color:#CC9385;">' . $match . '</span>';
+            self::$tokens[$id] = '<span style="color:#CC9385;">' . $match . '</span>';
         }
         return $id;
     }

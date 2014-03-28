@@ -9,6 +9,7 @@ class test extends model
 public function test()
 {
 //substr_replace();
+core::view();
 return 13;
 }
 

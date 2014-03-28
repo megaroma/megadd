@@ -86,9 +86,9 @@ $class_name = 'app\controller\\'.$controller_name;
 return new $class_name();
 }
 
-static function view($template)
+static function view($template, $path = "app/view/")
 {
-return new view($template);
+return new view($template, $path);
 }
 
 static function model($model_name)
