@@ -114,6 +114,8 @@ static function module($mod_name)
 if(isset(self::$modules[$mod_name]))
 {
 return self::$modules[$mod_name];
+} else {
+return false;
 }
 }
 

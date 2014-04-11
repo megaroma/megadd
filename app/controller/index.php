@@ -1,8 +1,8 @@
 <?php
 namespace app\controller
 {
-use megadd\classes\controller;
-use megadd\classes\core;
+use \megadd\classes\controller;
+use \megadd\classes\core;
 class index extends controller
 {
 
@@ -26,7 +26,7 @@ public function after()
 
 function action_index()
 {
-core::load_module('test');
+
 $main = core::view('main');
 
 $test = core::module('test'); //
@@ -36,6 +36,15 @@ $index->test = $test->get_str();
 
 $main->content = $index;
 
+//-------
+
+$db = core::module('db');
+$db->connect();
+$p[':name'] = "Mega name";
+$res = $db->query('select 13 as id, :name as name from dual',$p);
+//echo $res->count();exit;
+$row = $res->fetch();
+//echo $row['name'];exit; 
 $this->respond($main);
 }
 

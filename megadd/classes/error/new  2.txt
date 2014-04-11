@@ -1,0 +1,9 @@
+Array ( 
+[0] => Array ( [function] => err2exc 
+				[class] => megadd\classes\core 
+				[type] => :: 
+				[args] => Array ( [0] => 2 [1] => mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: YES) [2] => C:\xampp\htdocs\ddemon\megadd\modules\db\classes\mysqli.php [3] => 14 [4] => Array ( [conf] => Array ( [driver] => mysqli [host] => localhost [user] => root [password] => 2 [database] => test [port] => ) [host] => localhost ) ) ) 
+[1] => Array ( [file] => C:\xampp\htdocs\ddemon\megadd\modules\db\classes\mysqli.php 
+			   [line] => 14 [function] => mysqli_connect [args] => Array ( [0] => localhost [1] => root [2] => 2 [3] => test ) ) 
+[2] => Array ( [file] => C:\xampp\htdocs\ddemon\app\controller\index.php [line] => 42 [function] => connect [class] => megadd\modules\db\classes\mysqli [type] => -> [args] => Array ( ) ) 
+[3] => Array ( [file] => C:\xampp\htdocs\ddemon\megadd\classes\controller.php [line] => 20 [function] => action_index [class] => app\controller\index [type] => -> [args] => Array ( ) ) [4] => Array ( [file] => C:\xampp\htdocs\ddemon\index.php [line] => 30 [function] => run [class] => megadd\classes\controller [type] => -> [args] => Array ( [0] => index [1] => ) ) )

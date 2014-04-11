@@ -2,6 +2,7 @@
 namespace {
 use megadd\classes\core;
 define('MEGADD', true);
+header('Content-Type: text/html;charset=UTF-8');
 include "megadd/classes/autoload.php";
 spl_autoload_register('megadd\classes\autoload::load');
 set_error_handler('megadd\classes\core::err2exc', E_ALL & ~E_NOTICE &~ E_USER_NOTICE | E_STRICT);
@@ -13,14 +14,18 @@ core::init();
 $route = core::arr($_GET,'route','');
 $router = core::router();
 
-$router->set_dir('admin/dd');
-$router->set_dir('admin');
 
 
+
+$db = false;
+if ($db = core::module('db'))
+{
+$db->set_charset("utf8");
+}
+
+include "app/bootstrap.php";
 
 $error = core::error();
-
-
 $router->route($route);
 core::load_conf();
 $c = core::controller($router->controller);
@@ -30,11 +35,15 @@ try
 $c->run($router->action,$router->id);
 } catch (\megadd\exceptions\phpexception $e) { 
 	$error->message('PHP Error',$e);
+} catch (\megadd\exceptions\modexception $e) { 
+	$error->message('Module Exception',$e);
 } catch (\Exception $e) {
 	$error->message('Exception',$e);
 }
 
-
+if ($db) {
+$db->close();
+}
 
 }
 ?>
