@@ -1,6 +1,7 @@
 <?php
 namespace {
 use megadd\classes\core;
+use megadd\helper\cookie;
 define('MEGADD', true);
 header('Content-Type: text/html;charset=UTF-8');
 include "megadd/classes/autoload.php";
@@ -14,8 +15,8 @@ core::init();
 $route = core::arr($_GET,'route','');
 $router = core::router();
 
-
-
+$conf = core::conf();
+cookie::$salt = core::arr($conf,'cookie_salt',null);
 
 $db = false;
 if ($db = core::module('db'))
@@ -35,6 +36,8 @@ try
 $c->run($router->action,$router->id);
 } catch (\megadd\exceptions\phpexception $e) { 
 	$error->message('PHP Error',$e);
+} catch (\megadd\exceptions\sysexception $e) { 
+	$error->message('System Exception',$e);
 } catch (\megadd\exceptions\modexception $e) { 
 	$error->message('Module Exception',$e);
 } catch (\Exception $e) {
