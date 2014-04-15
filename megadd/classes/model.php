@@ -1,10 +1,7 @@
 <?php
-namespace megadd\classes
-{
-abstract class model
-{
-
-
-}
+namespace megadd\classes {
+if (!defined('MEGADD')) die ('Error 404 Not Found');
+	abstract class model	{
+	}
 }
 ?>

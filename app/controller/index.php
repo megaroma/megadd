@@ -13,7 +13,7 @@ $mod = core::model('test');
 $mod->test();
 
 $this->signal( array (
-'post' => array('s3','s4'),
+'post' => array('s3?isset','s4?string=13'),
 'action' => 'post'
 
 	)

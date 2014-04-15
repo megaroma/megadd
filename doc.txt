@@ -15,6 +15,6 @@ array(
 
 
 
-'post' => array('s3?isset','s4?number','s5?=super puper'),
+'post' => array('s3?isset','s4?number','s5?string=super puper','s4?number=13'),
 
 declare action last 

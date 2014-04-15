@@ -1,7 +1,7 @@
 <?php
 namespace megadd\modules\db
 {
-if (!defined('MEGADD')) die ('401 page not found');
+if (!defined('MEGADD')) die ('Error 404 Not Found');
 use megadd\classes\core;
 abstract class db
 {

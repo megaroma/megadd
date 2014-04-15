@@ -1,5 +1,5 @@
 <?php
-if (!defined('MEGADD')) die ('401 page not found');
+if (!defined('MEGADD')) die ('Error 404 Not Found');
 use megadd\classes\core;
 //Modules
 core::load_module('test');

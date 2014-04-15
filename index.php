@@ -1,7 +1,7 @@
 <?php
 namespace {
 use megadd\classes\core;
-use megadd\helper\cookie;
+use megadd\helpers\cookie;
 define('MEGADD', true);
 header('Content-Type: text/html;charset=UTF-8');
 include "megadd/classes/autoload.php";
