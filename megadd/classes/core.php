@@ -5,6 +5,7 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 		private static $router = false; 
 		private static $conf = array();
 		private static $modules = array();
+		private static $models = array();		
 		private static $error = false;
 
 		static function arr($arr,$value,$default) {
@@ -71,9 +72,14 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 		}
 
 		static function model($model_name) {
-			$class_name = 'app\model\\'.$model_name;
-			return new $class_name();
-		}
+			if(isset(self::$models[$model_name])) {
+				return self::$models[$model_name];
+			} else {
+				$class_name = 'app\model\\'.$model_name;
+				self::$models[$model_name] = new $class_name();
+				return self::$models[$model_name];
+			}
+		}		
 
 		static function load_module($mod_name) {
 			if (!(isset(self::$modules[$mod_name]))) {

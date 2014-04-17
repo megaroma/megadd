@@ -13,7 +13,9 @@ class router {
 	
 
 	public function set_dir($dir) {
-		$this->directories[] = $dir;
+		if (!in_array($dir, $this->directories)) {
+			$this->directories[] = $dir;
+		}
 	}
 
 	public function route($r) { 

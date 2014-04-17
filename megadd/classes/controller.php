@@ -112,19 +112,18 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 		private function check_signal($type,$data) {
 	
 			if (strpos($data, '?') === FALSE) {
-			$d_name = $data;
-			$d_cond = '';
+				$d_name = $data;
+				$d_cond = '';
+				$d_param = '';			
 			} else { 
-			list($d_name,$d_cond) = explode('?', $data, 2);
-			}
-
-			if (strpos($d_cond, '=') === FALSE) {
-			$d_param = '';
-			} else { 
-			list($d_cond,$d_param) = explode('=', $d_cond, 2);
+				list($d_name,$d_cond) = explode('?', $data, 2);
+				if (strpos($d_cond, '=') === FALSE) {
+					$d_param = '';
+				} else { 
+					list($d_cond,$d_param) = explode('=', $d_cond, 2);
+				}
 			}
 			
-		
 			if(($type == self::R_POST ) && (isset($_POST[$d_name])) ) {
 			    $item = $_POST[$d_name];
 			} elseif(($type == self::R_GET ) && (isset($_GET[$d_name])) ) {
