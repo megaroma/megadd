@@ -48,6 +48,12 @@ $row = $res->fetch();
 $this->respond($main);
 }
 
+function action_main()
+{
+$main = "page main";
+$this->respond($main);
+}
+
 function action_dd()
 {
 echo "dd";

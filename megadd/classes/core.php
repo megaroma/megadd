@@ -7,6 +7,7 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 		private static $modules = array();
 		private static $models = array();		
 		private static $error = false;
+		private static $global_data = false;
 
 		static function arr($arr,$value,$default) {
 			if (isset($arr[$value])) {
@@ -25,6 +26,15 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 			}
 		}
 
+		static function global_data() {
+			if (self::$global_data) {
+				return self::$global_data;
+			} else {
+				self::$global_data = new global_data();
+				return self::$global_data;
+			}
+		}
+		
 		static function router() {
 			if (self::$router) {
 				return self::$router;

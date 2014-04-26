@@ -9,7 +9,6 @@ spl_autoload_register('megadd\classes\autoload::load');
 set_error_handler('megadd\classes\core::err2exc', E_ALL & ~E_NOTICE &~ E_USER_NOTICE | E_STRICT);
 error_reporting(E_ALL | E_STRICT);
 
-
 core::init();
 
 $route = core::arr($_GET,'route','');

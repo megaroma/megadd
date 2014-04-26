@@ -5,10 +5,13 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 		private $template = "";
 		private $path = "";
 		private $data = array();
+		private $global_data;
+		
 
 		public function __construct ($template, $path = "app/view/") {
 			$this->template = $template;
 			$this->path = $path;
+			$this->global_data = core::global_data();
 		}
 
 		function __set($name,$value) {
@@ -20,6 +23,7 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 		}
 
 		public function render() {
+			extract($this->global_data->get_data(), EXTR_OVERWRITE);
 			foreach ($this->data as $key => $value) {
 				if (is_object($value)) {
 					$$key = $value->render();

@@ -24,8 +24,48 @@ declare action last
 
 
 router 
+-----------------------
+
+reg dir:
+ set_dir($dir)
+
+set def controller for dir:
+root of app = ''
+ set_controller($dir, $controller)
+
+set def action for contr in dir 
+
+ set_action($dir, $controller, $action)
+
+def contr 
+
+	set_def_controller($controller)
+
+def action
+
+	set_def_action($action)
+	
+
+mod auth
+--------------------------------
+
+login($user_name,$password,$auto_login)
+
+$user_id = reg($user_name,$email,$password)
+
+grant($user_id,$role);
+
+$user_id = logged_in($role);
+
+logout();
+
+$user = get_user($user_id);
 
 
-dir / *
-contr *
-act *
+
+
+
+
+
+
+

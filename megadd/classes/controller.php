@@ -1,6 +1,7 @@
 <?php
 namespace megadd\classes {
 use megadd\helpers\cookie;
+use megadd\helpers\session;
 if (!defined('MEGADD')) die ('Error 404 Not Found');
 
 	abstract class controller {
@@ -124,14 +125,14 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 				}
 			}
 			
-			if(($type == self::R_POST ) && (isset($_POST[$d_name])) ) {
+			if(($type == self::R_POST ) && (isset($_POST[$d_name]))) {
 			    $item = $_POST[$d_name];
-			} elseif(($type == self::R_GET ) && (isset($_GET[$d_name])) ) {
+			} elseif(($type == self::R_GET ) && (isset($_GET[$d_name]))) {
 			    $item = $_GET[$d_name];
-			} elseif(($type == self::R_COOKIE ) && (cookie::get($d_name,false)) ) {
+			} elseif(($type == self::R_COOKIE ) && (cookie::get($d_name,false))) {
 			    $item = cookie::get($d_name);
-			} elseif(($type == self::R_SESSION ) && (isset($_SESSION[$d_name])) ) {
-			    $item = $_SESSION[$d_name];
+			} elseif(($type == self::R_SESSION ) && (session::get($d_name,false))) {
+			    $item = session::get($d_name);
 			} else {
 				return false;
 			}
