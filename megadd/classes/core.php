@@ -71,7 +71,17 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 			}
 			return self::$conf[$grp];
 		}
-
+		
+		static function conf_val($var) {
+			if (strpos($var, '.') === false) {
+				return self::$conf['.'][$var];
+			} else {
+				list($grp,$v) = explode(".", $var,2);
+				$grp = ($grp == '') ? '.' : $grp;
+				return self::$conf[$grp][$v];
+			}
+		}
+		
 		static function controller($controller_name) {
 			$class_name = 'app\controller\\'.$controller_name;
 			return new $class_name();

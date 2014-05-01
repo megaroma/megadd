@@ -49,7 +49,9 @@ def action
 mod auth
 --------------------------------
 
-login($user_name,$password,$auto_login)
+login(identity, password, remember_user)
+logout();
+
 
 $user_id = reg($user_name,$email,$password)
 
@@ -57,9 +59,14 @@ grant($user_id,$role);
 
 $user_id = logged_in($role);
 
-logout();
+
 
 $user = get_user($user_id);
+
+$user->name
+$user->email
+$user->roles
+$user->online
 
 
 
