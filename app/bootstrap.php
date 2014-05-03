@@ -13,6 +13,7 @@ session::start();
 //Modules
 core::load_module('test');
 core::load_module('db');
+core::load_module('auth');
 
 //Dir
 core::router()->set_dir('admin/dd');

@@ -56,7 +56,16 @@ $this->respond($main);
 
 function action_dd()
 {
-echo "dd";
+$auth = core::module('auth');
+$db = core::module('db');
+$db->connect();
+//echo $auth->create_session_id(64);
+
+$user_id = $auth->reg('mega 66 Giga','mega3@mega.ru','password','');
+
+echo 'error:'.$auth->error.' id:'.$user_id;
+
+echo "<br>dd";
 }
 
 function action_post()

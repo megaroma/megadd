@@ -78,6 +78,9 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 			} else {
 				list($grp,$v) = explode(".", $var,2);
 				$grp = ($grp == '') ? '.' : $grp;
+				if (!isset(self::$conf[$grp])) {
+					self::load_conf($grp);
+				}				
 				return self::$conf[$grp][$v];
 			}
 		}

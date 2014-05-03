@@ -6,7 +6,6 @@ class router {
 	public $action = "";
 	public $id = "";
 
-
 	private $def_controller = "index";
 	private $def_action = "index";
 	private $directories = array();

@@ -49,7 +49,7 @@ def action
 mod auth
 --------------------------------
 
-login(identity, password, remember_user)
+login(identity, password, remember_user)  true/false
 logout();
 
 

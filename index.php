@@ -4,6 +4,7 @@ use megadd\classes\core;
 use megadd\helpers\cookie;
 define('MEGADD', true);
 header('Content-Type: text/html;charset=UTF-8');
+mb_internal_encoding("UTF-8");
 include "megadd/classes/autoload.php";
 spl_autoload_register('megadd\classes\autoload::load');
 set_error_handler('megadd\classes\core::err2exc', E_ALL & ~E_NOTICE &~ E_USER_NOTICE | E_STRICT);
