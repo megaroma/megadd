@@ -1,16 +1,30 @@
 <?php
 namespace megadd\modules\auth\classes	{
+if (!defined('MEGADD')) die ('Error 404 Not Found');
 use megadd\helpers\cookie;
 use megadd\helpers\session;
-if (!defined('MEGADD')) die ('Error 404 Not Found');
 use megadd\classes\core;
 	class db extends \megadd\modules\auth\auth {
 
-		public $error = "";
+		public $error = false;
 
 		private function hash($word) {
 			$secret_word = core::conf_val('auth.secret_word');
 			return md5($secret_word.'-'.$word.'-ADD');
+		}
+
+		private function get_role_id($role) {
+			$db = core::module('db');
+			$prefix = core::conf_val('tables_prefix');
+			$p[':role'] = $role;
+			$sql = "select `id` from `{$prefix}roles` where `name` = :role ";
+			$res = $db->query($sql,$p);
+			if($res->count() > 0 ) {
+				$data = $res->fetch();
+				return $data['id'];
+			} else {
+				return false;
+			}
 		}
 
 		private function get_roles($user_id) {
@@ -31,6 +45,19 @@ use megadd\classes\core;
 			return str_shuffle(substr(str_repeat(md5(mt_rand()), 2+$length/32), 0, $length));
 		}
 
+		private function get_user_by_id($user_id) {
+			$db = core::module('db');
+			$prefix = core::conf_val('tables_prefix');
+			$p[':user_id'] = $user_id;
+			$sql = "select * from `{$prefix}users`  where `id` = :user_id ";
+			$res = $db->query($sql,$p);
+			if($res->count() > 0 ) {
+				$data = $res->fetch();
+				return $data;
+			} else {
+				return false;
+			}
+		}
 		private function get_user_by_name($username) {
 			$db = core::module('db');
 			$prefix = core::conf_val('tables_prefix');
@@ -68,12 +95,34 @@ use megadd\classes\core;
 			$db->query($sql,$p);
 		}
 
+		private function update_session($user_id,$session_id) {
+			$db = core::module('db');
+			$prefix = core::conf_val('tables_prefix');
+			$p[':user_id'] = $user_id;
+			$p[':session_id'] = $session_id;
+			$sql = "update `{$prefix}auth_session` set `user_id` = :user_id ,`session_id` = :session_id ,`dt` =  UNIX_TIMESTAMP() ";
+			$db->query($sql,$p);
+		}
+
 		private function delete_session($user_id) {
 			$db = core::module('db');
 			$prefix = core::conf_val('tables_prefix');
 			$p[':user_id'] = $user_id;
 			$sql = "delete from `{$prefix}auth_session` where `user_id` = :user_id ";
 			$db->query($sql,$p);
+		}
+
+		private function get_session($user_id) {
+			$db = core::module('db');
+			$prefix = core::conf_val('tables_prefix');
+			$p[':user_id'] = $user_id;
+			$sql = "select * from `{$prefix}auth_session` where `user_id` = :user_id ";
+			$res = $db->query($sql,$p);
+			if ($res->count() > 0) {
+				return $res->fetch();
+			} else {
+				return false;
+			}
 		}
 	
 		private function delete_old_sessions() {
@@ -93,14 +142,21 @@ use megadd\classes\core;
 				session::delete('auth_session_id');
 				cookie::delete('user_identity');
 				cookie::delete('user_code');
+				$this->error = false;
 				return true;
 			} else {
+				$this->error = self::ERROR_WAS_NOT_LOGGED_IN;
 				return false;
 			}
 		}	
 
 		public function login($identity, $password, $remember_user = false) {
 			$db = core::module('db');
+			if ($password == '') {
+				sleep(1);
+				$this->error = self::ERROR_PASSWORD_INCORRECT;
+				return false;
+			}
 			$this->logout();
 			$h_pass = $this->hash($password);
 			$login_by = core::conf_val('auth.login_by');
@@ -130,9 +186,12 @@ use megadd\classes\core;
 					cookie::set('user_identity',$identity);
 					cookie::set('user_code',$password);
 				}
+				$this->delete_session($data['id']);
 				$this->start_session($data['id'],$session_id);
+				$this->error = false;
 				return true;
 			} else {
+				sleep(1);
 				$this->error = self::ERROR_PASSWORD_INCORRECT;
 				return false;
 			}
@@ -186,6 +245,7 @@ use megadd\classes\core;
 				$sql = "select LAST_INSERT_ID() as `id` from dual ";
 				$res = $db->query($sql);
 				$row = $res->fetch();
+				$this->error = false;
 				return $row['id'];
 			} else {
 				$this->error = self::ERROR_DB;
@@ -193,7 +253,79 @@ use megadd\classes\core;
 			}
 
 		}
+
+		public function logged_in($role = 'login') {
+			$this->delete_old_sessions();
+			if ($user_id = session::get('auth_user_id',false)) {
+				$session_id = session::get('auth_session_id','');
+				$roles = $this->get_roles($user_id);
+				if(!in_array($role, $roles)) {
+					$this->error = false;
+					return false;
+				}
+
+				$db_session = $this->get_session($user_id);
+				if ($db_session) {
+					if(core::conf_val('auth.multi_login') == false) {
+						if ($db_session['session_id'] != $session_id ) {
+							$this->error = self::ERROR_MULTI_LOGIN;
+							return false;
+						}
+					}
+					$this->update_session($user_id,$session_id);
+				} else {
+					$this->start_session($user_id,$session_id);
+				}
+				$this->error = false;
+				return true;
+			} elseif($identity = cookie::get('user_identity',false)) {
+				$password = cookie::get('user_code','');
+				if (login($identity, $password, true)) {
+					return true;
+				} else {
+					cookie::delete('user_identity');
+					cookie::delete('user_code');
+					$this->error = false;
+					return false;
+				}
+			} else {
+				$this->error = false;
+				return false;
+			}
+
+		}
+
+		public function grant($user_id,$role) {
+			$role_id = $this->get_role_id($role); 
+			if($role_id) {
+				$roles = $this->get_roles($data['id']);
+				if(!in_array($role, $roles)) {
+					$db = core::module('db');
+					$prefix = core::conf_val('tables_prefix');
+					$p[':user_id'] = $user_id;
+					$p[':role_id'] = $role_id;
+					$sql = "insert into `{$prefix}user_role` (`user_id`,`role_id`) values ( :user_id , :role_id ) ";
+					$db->query($sql,$p);
+					$this->error = false;
+					return true;					
+				}
+			} 
+
+			$this->error = false;
+			return false;
+		}
+
+		public function get_user($user_id) {
+			if ($user = $this->get_user_by_id($user_id)) {
+				$this->delete_old_sessions();
+				$roles = $this->get_roles($user_id);
+				$online = ($this->get_session($user_id))? true : false;
+				return new user($user,$roles,$online);
+			} else {
+				return false;
+			}
+		}
 	
-	}
-}
+	}//end class
+}//end namespace
 ?>

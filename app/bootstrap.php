@@ -18,7 +18,7 @@ core::load_module('auth');
 //Dir
 core::router()->set_dir('admin/dd');
 core::router()->set_dir('admin');
-core::router()->set_action('', 'index', 'main');
+//core::router()->set_action('', 'index', 'main');
 
 
 ?>

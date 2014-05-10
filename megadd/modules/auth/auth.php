@@ -12,7 +12,9 @@ use megadd\classes\core;
 			  ERROR_REG_PASSWORD_INCORRECT = 7,
 			  ERROR_PASSWORD_TOO_SHORT = 8,
 			  ERROR_REPEATED_PASSWORD = 9,
-			  ERROR_DB = 10;
+			  ERROR_DB = 10,
+			  ERROR_WAS_NOT_LOGGED_IN = 11,
+			  ERROR_MULTI_LOGIN = 12;
 
 		static function getInstance() {
 			$conf = core::conf('auth');

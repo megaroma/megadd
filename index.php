@@ -18,21 +18,23 @@ $router = core::router();
 $conf = core::conf();
 cookie::$salt = core::arr($conf,'cookie_salt',null);
 
-$db = false;
-if ($db = core::module('db'))
-{
-$db->set_charset("utf8");
-}
 
 include "app/bootstrap.php";
 
 $error = core::error();
 $router->route($route);
 core::load_conf();
+
+$db = core::module('db');
+
 $c = core::controller($router->controller);
 
 try
 {
+if ($db) {
+	$db->connect();
+	$db->set_charset("utf8"); 
+}	
 $c->run($router->action,$router->id);
 } catch (\megadd\exceptions\phpexception $e) { 
 	$error->message('PHP Error',$e);

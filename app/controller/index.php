@@ -31,7 +31,37 @@ $main = core::view('main');
 
 $test = core::module('test'); //
 
+$auth = core::module('auth');
+
+
+
+
+
 $index = core::view('index');
+
+$main->error = "";
+
+if(core::arr($_POST,'logout',false))
+{
+$auth->logout();
+}
+
+if($name = core::arr($_POST,'username',false))
+{
+$password = core::arr($_POST,'password','');
+$auth->login(	$name,$password,false);
+$main->error = $auth->error;
+}
+if ($user_id = $auth->logged_in()) {
+$main->logged = true;
+$user = $auth->get_user($user_id);
+$main->name = $user->get_name();
+} else {
+$main->logged = false;
+$main->name = "";
+}
+
+
 $index->test = $test->get_str();
 
 $main->content = $index;
@@ -39,7 +69,7 @@ $main->content = $index;
 //-------
 
 $db = core::module('db');
-$db->connect();
+
 $p[':name'] = "Mega name";
 $res = $db->query('select 13 as id, :name as name from dual',$p);
 //echo $res->count();exit;
@@ -58,10 +88,11 @@ function action_dd()
 {
 $auth = core::module('auth');
 $db = core::module('db');
-$db->connect();
+
 //echo $auth->create_session_id(64);
 
-$user_id = $auth->reg('mega 66 Giga','mega3@mega.ru','password','');
+$user_id = $auth->reg('giga','giga@mega.ru','test','test');
+$auth->grant($user_id,'login');
 
 echo 'error:'.$auth->error.' id:'.$user_id;
 

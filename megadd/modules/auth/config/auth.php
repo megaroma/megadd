@@ -5,6 +5,7 @@ return array (
 	'session_max_time' => 1200, //20 minute 
 	'login_by' => 'email', // username,email,both
 	'password_min_length' => 4,
-	'secret_word' => 'megaDD'
+	'secret_word' => 'megaDD',
+	'multi_login' => true 
 );
 ?>

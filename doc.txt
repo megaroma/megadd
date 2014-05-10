@@ -53,7 +53,7 @@ login(identity, password, remember_user)  true/false
 logout();
 
 
-$user_id = reg($user_name,$email,$password)
+$user_id = reg($user_name,$email,$password, $r_password)
 
 grant($user_id,$role);
 
