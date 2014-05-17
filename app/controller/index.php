@@ -80,6 +80,12 @@ $this->respond($main);
 
 function action_main()
 {
+
+$img = core::lib('SimpleImage');
+$img->create(120,120,'#FF0000');
+$img->smooth(5);
+$img->save('public/images/test.jpg');
+
 $main = "page main";
 $this->respond($main);
 }

@@ -1,3 +1,5 @@
+https://github.com/claviska/SimpleImage
+
 conroller:
 
 
@@ -69,7 +71,12 @@ $user->roles
 $user->online
 
 
-
+mod comment
+------------------------------------
+setup($parent_id,$mod_name)
+add($user_id,$comment,$guest_name = null,$guest_email = null);
+get(start,end,sort)
+count()
 
 
 

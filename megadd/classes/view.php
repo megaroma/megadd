@@ -1,5 +1,6 @@
 <?php
 namespace megadd\classes {
+use megadd\helpers\v;
 if (!defined('MEGADD')) die ('Error 404 Not Found');
 	class view {
 		private $template = "";

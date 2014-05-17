@@ -40,3 +40,8 @@ PRIMARY KEY (`user_id`)
 
 insert into `dd_roles` (`id`,`name`,`description`) values (1,'login','login user'),
                                                           (2,'admin','admin user');
+
+
+
+------------------------------------------
+

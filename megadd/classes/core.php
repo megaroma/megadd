@@ -84,7 +84,12 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 				return self::$conf[$grp][$v];
 			}
 		}
-		
+
+		static function lib($lib_name) {
+			$class_name = '\megadd\libs\\'.$lib_name;
+			return new $class_name();
+		}
+
 		static function controller($controller_name) {
 			$class_name = 'app\controller\\'.$controller_name;
 			return new $class_name();
