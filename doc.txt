@@ -74,12 +74,24 @@ $user->online
 mod comment
 ------------------------------------
 setup($parent_id,$mod_name)
-add($user_id,$comment,$guest_name = null,$guest_email = null);
+add($comment,$guest_name = null,$guest_email = null); //$comment = array('subject' => $subj,'text' => $text) //$comment = $text
 get(start,end,sort)
+get_page(page)
 count()
+pages()
 
 
 
 
+mod photos
+----------------------
+id = save(file,title)
+img = get(id)
+img = get_mini(id)
+img = get_mid(id)
 
-
+img->src
+img->title
+img->w
+img->h
+img->render()

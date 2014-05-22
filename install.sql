@@ -44,4 +44,19 @@ insert into `dd_roles` (`id`,`name`,`description`) values (1,'login','login user
 
 
 ------------------------------------------
-
+create table `dd_comment`
+(
+`id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+`mod_name` varchar(50),
+`parent_id` int(11) UNSIGNED,
+`user_id` int(11) UNSIGNED,
+`guest_name` varchar(50),
+`guest_email` varchar(50),
+`created` int(11) UNSIGNED,
+`updated` int(11) UNSIGNED,
+`subject` text,
+`text` text,
+ KEY `index_mod_name` (`mod_name`(10)),
+ KEY `index_parent_id` (`parent_id`),
+ PRIMARY KEY (`id`)
+ )  ENGINE = InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
