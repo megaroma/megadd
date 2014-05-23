@@ -111,6 +111,13 @@ echo "post 13";
 }
 
 
+function action_comm()
+{
+	$comm = core::module('comment');
+	$comm->setup(1,'test');
+	$comm->add(array('subject' => 'subj test', 'text' =>  'Test text comment'));
+	echo "OK";
+}
 
 }
 }

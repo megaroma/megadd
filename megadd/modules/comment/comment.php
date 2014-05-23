@@ -2,7 +2,7 @@
 namespace megadd\modules\comment {
 if (!defined('MEGADD')) die ('Error 404 Not Found');
 use megadd\classes\core;
-	class auth {
+	class comment {
 
 		static function getInstance() {
 			if (!(core::module('auth'))) throw new \megadd\exceptions\modexception(13, "Comment error: module AUTH is not found");

@@ -14,6 +14,7 @@ session::start();
 core::load_module('test');
 core::load_module('db');
 core::load_module('auth');
+core::load_module('comment');
 
 //Dir
 core::router()->set_dir('admin/dd');

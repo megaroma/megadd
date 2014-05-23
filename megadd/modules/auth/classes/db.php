@@ -277,11 +277,11 @@ use megadd\classes\core;
 					$this->start_session($user_id,$session_id);
 				}
 				$this->error = false;
-				return true;
+				return $user_id;
 			} elseif($identity = cookie::get('user_identity',false)) {
 				$password = cookie::get('user_code','');
-				if (login($identity, $password, true)) {
-					return true;
+				if ($this->login($identity, $password, true)) {
+					return session::get('auth_user_id',false);
 				} else {
 					cookie::delete('user_identity');
 					cookie::delete('user_code');
