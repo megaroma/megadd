@@ -134,6 +134,14 @@ use megadd\classes\core;
 			$db->query($sql,$p);
 		}
 
+		private function update_last_login($user_id) {
+			$db = core::module('db');
+			$prefix = core::conf_val('tables_prefix');
+			$sql = "update `{$prefix}users` set `last_login` = UNIX_TIMESTAMP() where `id` = :user_id ";
+			$p[':user_id'] = $user_id;
+			$db->query($sql,$p);
+		}
+
 		public function logout() {
 			$this->delete_old_sessions();
 			if ($user_id = session::get('auth_user_id',false)) {
@@ -181,11 +189,13 @@ use megadd\classes\core;
 				}
 				$session_id = $this->create_session_id(64);
 				session::set('auth_user_id',$data['id']);
-				session::set('auth_session_id',$session_id);
+				session::set('auth_session_id',$session_id);				
+				session::set('auth_last_login',$data['last_login']);
 				if($remember_user) {
 					cookie::set('user_identity',$identity);
 					cookie::set('user_code',$password);
 				}
+				$this->update_last_login($data['id']);
 				$this->delete_session($data['id']);
 				$this->start_session($data['id'],$session_id);
 				$this->error = false;
