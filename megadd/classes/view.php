@@ -14,16 +14,22 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 			$this->global_data = core::global_data();
 		}
 
-		function __set($name,$value) {
+		public function __set($name,$value) {
 			$this->data[$name] = $value;
 		}
 
-		function __get($name) {
+		public function __get($name) {
 			return (isset($this->data[$name]))? $this->data[$name] : '';
+		}
+
+		public function __toString() {
+			return $this->render();
 		}
 
 		public function render() {
 			$this->data = array_merge($this->global_data->get_data(),$this->data);
+			extract($this->data);
+			/*
 			foreach ($this->data as $key => $value) {
 				if (is_object($value)) {
 					$$key = $value->render();
@@ -31,6 +37,7 @@ if (!defined('MEGADD')) die ('Error 404 Not Found');
 					$$key = $value;
 				}
 			}
+			*/
 			ob_start();
 			include $this->path.$this->template.".php";
 			$text = ob_get_contents();

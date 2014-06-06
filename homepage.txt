@@ -1,0 +1,16 @@
+
+main
+news
+blog
+photos
+guest book
+------------------
+
+user profile
+ info	
+ settings	
+ messages
+ photos
+ komments
+
+
