@@ -35,8 +35,6 @@ $auth = core::module('auth');
 
 
 
-
-
 $index = core::view('index');
 
 $main->error = "";
